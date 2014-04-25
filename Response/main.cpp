@@ -14,7 +14,7 @@ using namespace std;
 */
 int main()
 {
-	string req = "GET  /main.cspp   HTTP/1.1\r\n Host: 127.0.0.1\r\n Connection: close  \r\n User-Agent: Mozilla/5.0 \r\n  Accept-language:  us\r\n\r\n";
+	string req = "GET  /main.cpp   HTTP/1.1\r\n Host: 127.0.0.1\r\n Connection: close  \r\n User-Agent: Mozilla/5.0 \r\n  Accept-language:  us\r\n\r\n";
 	ResponseGenerator r(req);
 	cout << r.get_status_and_header() << endl;
 	return 0;
