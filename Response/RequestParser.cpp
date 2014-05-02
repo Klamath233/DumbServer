@@ -20,8 +20,8 @@ RequestParser::RequestParser(string s):request(s),parseError(0),validity(0)
 {
 	parse();
 
-	print_headers();
-	check_validity(true);
+	//print_headers();
+	check_validity(false);
 }
 
 bool RequestParser::error() const
@@ -50,14 +50,15 @@ void RequestParser::parse()
 	istringstream buf2(second_parse);
 	for(string token2;getline(buf2,token2,'\n');)
 	{
-		cout << token2 << endl;
+		//cout << token2 << endl;
 		lines.push_back(token2);
 	}
-
+	/*
 	cout << "------" << endl;
 	for(int i=0;i<lines.size();i++)
 		cout << lines[i] << endl;
 	cout << "------" << endl;
+	*/
 
 	lines.pop_back(); // delete last element :'\n'
 	for(unsigned int i=0;i<lines.size();i++)

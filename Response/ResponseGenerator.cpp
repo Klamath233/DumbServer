@@ -35,14 +35,14 @@ string ResponseGenerator::int_to_string(int num) const
 
 
 
-void ResponseGenerator::determine_status(bool debug=true)
+void ResponseGenerator::determine_status(bool debug=false)
 {
 	HTTP_status_code = 400; // assume request has syntax error
 	/* if parse error or request format is not valid
 	   set code to 404 and return */
 	if (rp.error())
 	{
-		cerr << "* [fail]Bad request!" << endl;
+		if(debug)cerr << "* [fail]Bad request!" << endl;
 		return;
 	}
 	HTTP_status_code = 404; // file not found now
@@ -51,25 +51,27 @@ void ResponseGenerator::determine_status(bool debug=true)
 
 	if( access(fn_ptr,F_OK ) != -1 )
 	{
-		if(debug) cout << "* [pass]file does exist" << endl;
+		if(debug) 
+			cout << "* [pass]file does exist" << endl;
 		file_exist = 1;
 		HTTP_status_code = 403; // file forbidden now
 	}
 	else
 	{
-		cerr << "* [fail]File does NOT exist!" << endl;
+		if(debug)cerr << "* [fail]File does NOT exist!" << endl;
 		return;
 	}
 	if (access(fn_ptr,R_OK) != -1)
 	{
-		if(debug) cout << "* [pass]file is readable" << endl;
+		if(debug) 
+			cout << "* [pass]file is readable" << endl;
 		file_readable = 1;
 		HTTP_status_code = 200; // file can be served now
 
 	}
 	else
 	{
-		cerr << "* [fail]File is NOT readable!" << endl;
+		if(debug)cerr << "* [fail]File is NOT readable!" << endl;
 		return;
 	}
 	// Get GMT for modified time
@@ -152,7 +154,7 @@ void ResponseGenerator::gen_base()
 	ifstream rf(fn.c_str()/*,ios::binary*/);
 	stringstream buffer;
 	buffer << rf.rdbuf();
-	cout << buffer.str() << endl;
+	//cout << buffer.str() << endl;
 	status_and_header += buffer.str();
 }
 
