@@ -20,6 +20,7 @@ file_readable(0), HTTP_status_code(400),status_and_header(""),filesize(0)
 	//rp.print_headers();
 	determine_status(false);
 	gen_base();
+	//cout << status_and_header << endl;
 
 	//
 }
@@ -120,7 +121,7 @@ void ResponseGenerator::gen_base()
 	}
 	status_and_header += "\r\n";
 	// add connection type
-	status_and_header += "Connection: "+rp.get_Connection()+"\r\n";
+	status_and_header += "Connection: "+rp.get_Connection_Type()+"\r\n";
 	// add time when response were being created
 	// first generate GMT for curren time
     time_t rawtime;

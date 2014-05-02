@@ -19,7 +19,9 @@ RequestParser::RequestParser()
 RequestParser::RequestParser(string s):request(s),parseError(0),validity(0)
 {
 	parse();
-	check_validity(false);
+
+	print_headers();
+	check_validity(true);
 }
 
 bool RequestParser::error() const
@@ -35,13 +37,28 @@ void RequestParser::parse()
 	string blank = " \t"; // remove tab or space
 	string second_parse = "";
 	istringstream buf(request);
+	int counter = 0;
+	//cout << "-------------" << endl;
 	for(string token;getline(buf,token,'\r');)
 	{
+		//cout << counter++;
+		//cout <<token<<endl;
 		second_parse += token;
 	}
+	//cout << "-------------" << endl;
+	//cout << second_parse << endl;
 	istringstream buf2(second_parse);
 	for(string token2;getline(buf2,token2,'\n');)
+	{
+		cout << token2 << endl;
 		lines.push_back(token2);
+	}
+
+	cout << "------" << endl;
+	for(int i=0;i<lines.size();i++)
+		cout << lines[i] << endl;
+	cout << "------" << endl;
+
 	lines.pop_back(); // delete last element :'\n'
 	for(unsigned int i=0;i<lines.size();i++)
 	{
@@ -96,14 +113,6 @@ Sample valid parse result:
 */
 void RequestParser::check_validity(bool debug=false)
 {
-	if (11 != headers.size())
-	{
-		cerr << "* [fail]Invalid header size" << endl;
-		validity = 1;
-		return;
-	}
-	else
-		if(debug) cout << "* [pass]Passed header size test" << endl;
 	for(int i=0;i<headers.size();i++)
 	{
 		switch(i)
@@ -195,6 +204,12 @@ void RequestParser::check_validity(bool debug=false)
 					if(debug) cout << "* [pass]Passed HOSTNAME test" << endl;
 				break;
 			}
+			case 16:
+			{
+				Connection_Type = headers[i];
+
+			}
+			/*
 			case 4:
 			{
 				// i do not know what should check for this
@@ -260,6 +275,7 @@ void RequestParser::check_validity(bool debug=false)
 				Aclang = headers[10];
 				break;
 			}
+			*/
 
 			default:
 				break;
